@@ -1,0 +1,11 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource>
+    <file>./le.ico</file>
+    <file>./shapes.vert</file>
+    <file>./shapes.frag</file>
+    <file>./images/wall.jpg</file>
+    <file>./images/small.png</file>
+    <file>./images/awesomeface.png</file>
+  </qresource>
+</RCC>
