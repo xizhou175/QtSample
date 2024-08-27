@@ -90,7 +90,7 @@ void OpenGLWidget::initializeGL()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO); 
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices),indices, GL_STATIC_DRAW);
 
     //告知显卡如何解析缓冲里的属性值
@@ -132,7 +132,7 @@ void OpenGLWidget::initializeGL()
     shaderProgram.setUniformValue("textureWall",0);
     shaderProgram.setUniformValue("textureSmile",1);
     shaderProgram.setUniformValue("textureSmall",3);
- 
+
     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

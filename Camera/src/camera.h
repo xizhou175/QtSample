@@ -82,9 +82,48 @@ public:
     // returns the view matrix calculated using Euler Angles and the LookAt Matrix
     QMatrix4x4 GetViewMatrix()
     {
-        QMatrix4x4 theMatrix;
-        theMatrix.lookAt(Position, Position + Front, Up);
+        QMatrix4x4 theMatrix = lookAt(Position, Position + Front, Up);
+        //QMatrix4x4 theMatrix;
+        //theMatrix.lookAt(Position, Position + Front, Up);
         return theMatrix;
+    }
+
+    QMatrix4x4 lookAt( const QVector3D& pos, const QVector3D& target, const QVector3D& up )
+    {
+        QVector3D D = pos - target;
+        D.normalize();
+        QVector3D R = QVector3D::crossProduct( up, D );
+        R.normalize();
+        QVector3D U = QVector3D::crossProduct( D, R );
+        U.normalize();
+        QVector4D v;
+        QMatrix4x4 translation;
+        v.setX(-pos.x());
+        v.setY(-pos.y());
+        v.setZ(-pos.z());
+        v.setW(1.0);
+        translation.setColumn(3, v);
+
+        QMatrix4x4 rotation;
+        v.setX(R.x());
+        v.setY(R.y());
+        v.setZ(R.z());
+        v.setW(0.0);
+        rotation.setRow(0, v);
+
+        v.setX(U.x());
+        v.setY(U.y());
+        v.setZ(U.z());
+        v.setW(0.0);
+        rotation.setRow(1, v);
+
+        v.setX(D.x());
+        v.setY(D.y());
+        v.setZ(D.z());
+        v.setW(0.0);
+        rotation.setRow(2, v);
+
+        return rotation * translation;
     }
 
     // 处理从任何类似键盘的输入系统接收的输入。接受摄像机定义枚举形式的输入参数（从窗口系统中提取）
@@ -99,6 +138,7 @@ public:
             Position -= Right * velocity;
         if (direction == RIGHT)
             Position += Right * velocity;
+        Position.setY(0);
     }
 
     // 处理从鼠标输入系统接收的输入。需要x和y方向上的偏移值。
@@ -142,6 +182,7 @@ private:
         QVector3D front;
         front.setX(cos(Yaw*PI/180.0) * cos(Pitch*PI/180.0));
         front.setY( sin(Pitch*PI/180.0));
+        //front.setY(0);
         front.setZ(sin(Yaw*PI/180.0) * cos(Pitch*PI/180.0));
         front.normalize();
         Front = front;
